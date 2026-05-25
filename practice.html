@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Practice</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: white;
+            padding: 20px;
+        }
+        .box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 700px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #00ffcc;
+        }
+        .text-display {
+            font-size: 1.4rem;
+            line-height: 2rem;
+            margin-bottom: 20px;
+            text-align: left;
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            letter-spacing: 0.5px;
+        }
+        .correct { color: #2ecc71; }
+        .incorrect { color: #e74c3c; background-color: rgba(231, 76, 60, 0.2); }
+        .current { border-bottom: 2px solid #00ffcc; }
+        
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 15px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            border: 2px solid #b0bec5;
+            background: #ffffff;
+            color: #333333;
+            resize: none;
+            outline: none;
+        }
+        textarea:focus { border-color: #00ffcc; }
+        
+        .result-screen {
+            display: none;
+        }
+        .result-screen h2 { color: #ffaa00; font-size: 2rem; margin-bottom: 10px; }
+        .btn {
+            display: inline-block;
+            margin: 10px;
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #00c6ff, #0072ff);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="box">
+        <!-- TYPING GAME SCREEN -->
+        <div id="game-screen">
+            <div class="stats">
+                <div>WPM: <span id="wpm">0</span></div>
+                <div>Accuracy: <span id="accuracy">100</span>%</div>
+            </div>
+            <div class="text-display" id="text-quote"></div>
+            <textarea id="text-input" placeholder="Start typing here to begin the test..."></textarea>
+        </div>
+
+        <!-- FINAL RESULT SCREEN -->
+        <div id="result-screen" class="result-screen">
+            <h2>🎉 Congratulations!</h2>
+            <p style="margin-bottom: 20px; font-size: 1.2rem;">You finished the typing test!</p>
+            <div class="stats">
+                <div>Final WPM: <span id="final-wpm">0</span></div>
+                <div>Final Accuracy: <span id="final-accuracy">0</span>%</div>
+            </div>
+            <button class="btn" onclick="resetTest()">Practice Again</button>
+            <a href="index.html" class="btn">Home Page</a>
+        </div>
+    </div>
+
+    <script>
+        const sampleText = "The quick brown fox jumps over the lazy dog. Programming is the art of expressing algorithms in a language computers understand.";
+        const textDisplay = document.getElementById('text-quote');
+        const textInput = document.getElementById('text-input');
+        const wpmDisplay = document.getElementById('wpm');
+        const accuracyDisplay = document.getElementById('accuracy');
+        const gameScreen = document.getElementById('game-screen');
+        const resultScreen = document.getElementById('result-screen');
+        
+        let startTime, timerInitialized = false;
+
+        // Setup text with spans around characters
+        function setupText() {
+            textDisplay.innerHTML = '';
+            sampleText.split('').forEach(char => {
+                const span = document.createElement('span');
+                span.innerText = char;
+                textDisplay.appendChild(span);
+            });
+        }
+
+        textInput.addEventListener('input', () => {
+            if (!timerInitialized) {
+                startTime = new Date();
+                timerInitialized = true;
+            }
+
+            const arrayQuote = textDisplay.querySelectorAll('span');
+            const arrayValue = textInput.value.split('');
+            let correctCount = 0;
+            let errors = 0;
+
+            arrayQuote.forEach((characterSpan, index) => {
+                const character = arrayValue[index];
+                if (character == null) {
+                    characterSpan.className = '';
+                    if(index === arrayValue.length) characterSpan.classList.add('current');
+                } else if (character === characterSpan.innerText) {
+                    characterSpan.className = 'correct';
+                    correctCount++;
+                } else {
+                    characterSpan.className = 'incorrect';
+                    errors++;
+                }
+            });
+
+            // Live Accuracy
+            if(arrayValue.length > 0) {
+                let acc = Math.round((correctCount / arrayValue.length) * 100);
+                accuracyDisplay.innerText = acc;
+            }
+
+            // Live WPM
+            let timeElapsed = (new Date() - startTime) / 60000; // in minutes
+            if (timeElapsed > 0) {
+                let wpm = Math.round((textInput.value.length / 5) / timeElapsed);
+                wpmDisplay.innerText = wpm;
+            }
+
+            // End game check
+            if (arrayValue.length >= arrayQuote.length) {
+                showResults();
+            }
+        });
+
+        function showResults() {
+            gameScreen.style.display = 'none';
+            resultScreen.style.display = 'block';
+            document.getElementById('final-wpm').innerText = wpmDisplay.innerText;
+            document.getElementById('final-accuracy').innerText = accuracyDisplay.innerText;
+        }
+
+        function resetTest() {
+            textInput.value = '';
+            wpmDisplay.innerText = '0';
+            accuracyDisplay.innerText = '100';
+            timerInitialized = false;
+            resultScreen.style.display = 'none';
+            gameScreen.style.display = 'block';
+            setupText();
+            textInput.focus();
+        }
+
+        setupText();
+    </script>
+</body>
+</html>

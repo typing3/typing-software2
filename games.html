@@ -1,16 +1,11 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Typing Skills - Typing Games</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body {
             min-height: 100vh;
             display: flex;
@@ -18,122 +13,132 @@
             align-items: center;
             background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
             color: white;
-            padding: 40px 20px;
+            padding: 20px;
         }
-        .container {
-            max-width: 1000px;
-            width: 100%;
-            text-align: center;
-        }
-        h2 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            color: #ffaa00;
-        }
-        .subtitle {
-            color: #b0bec5;
-            margin-bottom: 40px;
-            font-size: 1.1rem;
-        }
-        /* Beautiful square grid layout for game blocks */
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-        /* Interactive square game card design */
+        .container { max-width: 1000px; width: 100%; text-align: center; }
+        h2 { font-size: 2.5rem; margin-bottom: 10px; color: #ffaa00; }
+        .subtitle { color: #b0bec5; margin-bottom: 40px; }
+        .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 40px; }
         .game-card {
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 30px 20px;
-            aspect-ratio: 1 / 1; /* Forces the block to be a perfect square */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-            cursor: pointer;
+            background: rgba(255, 255, 255, 0.08); border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px; padding: 30px 20px; aspect-ratio: 1 / 1;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, border-color 0.3s; cursor: pointer;
         }
-        /* Color themes for different square blocks */
-        .card-pink:hover {
-            border-color: #ff007f;
-            box-shadow: 0 10px 25px rgba(255, 0, 127, 0.4);
-            transform: translateY(-5px);
-        }
-        .card-cyan:hover {
-            border-color: #00ffcc;
-            box-shadow: 0 10px 25px rgba(0, 255, 204, 0.4);
-            transform: translateY(-5px);
-        }
-        .card-orange:hover {
-            border-color: #ffaa00;
-            box-shadow: 0 10px 25px rgba(255, 170, 0, 0.4);
-            transform: translateY(-5px);
-        }
-        .game-icon {
-            font-size: 3.5rem;
-            margin-bottom: 15px;
-        }
-        .game-title {
-            font-size: 1.4rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .game-card p {
-            font-size: 0.9rem;
-            color: #b0bec5;
-            line-height: 1.3rem;
-        }
+        .card-pink:hover { border-color: #ff007f; transform: translateY(-5px); }
+        .card-cyan:hover { border-color: #00ffcc; transform: translateY(-5px); }
+        .card-orange:hover { border-color: #ffaa00; transform: translateY(-5px); }
+        .game-icon { font-size: 3.5rem; margin-bottom: 15px; }
+        .game-title { font-size: 1.4rem; font-weight: bold; margin-bottom: 10px; }
+        .game-card p { font-size: 0.9rem; color: #b0bec5; line-height: 1.3rem; }
+        
+        /* ACTIVE GAME ARENA MODAL */
+        .game-arena { display: none; background: rgba(0, 0, 0, 0.4); padding: 30px; border-radius: 15px; max-width: 600px; margin: 0 auto; }
+        .word-display { font-size: 3rem; font-weight: bold; color: #ffaa00; margin-bottom: 15px; letter-spacing: 2px; }
+        .score-board { font-size: 1.5rem; color: #00ffcc; margin-bottom: 20px; }
+        input[type="text"] { padding: 12px; width: 80%; font-size: 1.2rem; border-radius: 8px; border: none; text-align: center; outline: none; }
+        
         .nav-btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: background 0.2s;
+            display: inline-block; padding: 12px 30px; background: rgba(255, 255, 255, 0.15);
+            color: white; text-decoration: none; border-radius: 50px; font-weight: 600; margin-top: 20px; cursor: pointer; border: none;
         }
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-        }
+        .nav-btn:hover { background: rgba(255, 255, 255, 0.25); }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>Typing Arcade</h2>
-        <p class="subtitle">Level up your keyboard precision with interactive modules.</p>
-        
-        <!-- The beautiful square blocks layout -->
-        <div class="games-grid">
+        <div id="arcade-menu">
+            <h2>Typing Arcade</h2>
+            <p class="subtitle">Level up your keyboard precision with interactive modules.</p>
             
-            <div class="game-card card-pink" onclick="alert('Launching Falling Words Mode... (Coming Soon!)')">
-                <div class="game-icon">☄️</div>
-                <div class="game-title" style="color: #ff007f;">Falling Meteor</div>
-                <p>Type the words before they hit the ground and destroy your shield.</p>
+            <div class="games-grid">
+                <div class="game-card card-pink" onclick="alert('Falling Meteor Mode coming soon!')">
+                    <div class="game-icon">☄️</div>
+                    <div class="game-title" style="color: #ff007f;">Falling Meteor</div>
+                    <p>Type the words before they hit the ground.</p>
+                </div>
+                <div class="game-card card-cyan" onclick="alert('Speed Sprint Mode coming soon!')">
+                    <div class="game-icon">⏱️</div>
+                    <div class="game-title" style="color: #00ffcc;">Speed Sprint</div>
+                    <p>Pop as many letters as you can in 30 seconds.</p>
+                </div>
+                <!-- ACTIVE SURVIVAL GAME BLOCK -->
+                <div class="game-card card-orange" onclick="startSurvivalGame()">
+                    <div class="game-icon">❤️</div>
+                    <div class="game-title" style="color: #ffaa00;">Sudden Death</div>
+                    <p>Click to Play! One single typing mistake ends the game instantly.</p>
+                </div>
             </div>
-            
-            <div class="game-card card-cyan" onclick="alert('Launching Time Attack Arcade Mode... (Coming Soon!)')">
-                <div class="game-icon">⏱️</div>
-                <div class="game-title" style="color: #00ffcc;">Speed Sprint</div>
-                <p>Pop as many letters as you can within a 30-second rapid window.</p>
-            </div>
-            
-            <div class="game-card card-orange" onclick="alert('Launching Infinite Survival Mode... (Coming Soon!)')">
-                <div class="game-icon">❤️</div>
-                <div class="game-title" style="color: #ffaa00;">Sudden Death</div>
-                <p>One single mistake ends the run. How long can your streak survive?</p>
-            </div>
-            
+            <a href="index.html" class="nav-btn">← Back to Home Page</a>
         </div>
-        
-        <a href="index.html" class="nav-btn">← Back to Home Page</a>
+
+        <!-- REAL LIVE SURVIVAL INTERFACE -->
+        <div id="game-arena" class="game-arena">
+            <h2 id="arena-title" style="color: #ffaa00; margin-bottom: 10px;">Sudden Death Mode</h2>
+            <div class="score-board">Score: <span id="game-score">0</span></div>
+            <div id="word-target" class="word-display">READY</div>
+            <input type="text" id="game-input" placeholder="Type the word perfectly..." autocomplete="off">
+            <br>
+            <button class="nav-btn" onclick="exitArcade()">Exit Game</button>
+        </div>
     </div>
 
+    <script>
+        const wordList = ["code", "script", "laptop", "window", "rocket", "matrix", "button", "system", "cookie", "wizard", "cyber", "galaxy", "pixel", "quantum"];
+        let score = 0;
+        let currentWord = "";
+        
+        const menu = document.getElementById('arcade-menu');
+        const arena = document.getElementById('game-arena');
+        const wordTarget = document.getElementById('word-target');
+        const gameInput = document.getElementById('game-input');
+        const scoreDisplay = document.getElementById('game-score');
+
+        function startSurvivalGame() {
+            menu.style.display = 'none';
+            arena.style.display = 'block';
+            score = 0;
+            scoreDisplay.innerText = score;
+            gameInput.value = "";
+            nextWord();
+            gameInput.focus();
+        }
+
+        function nextWord() {
+            gameInput.value = "";
+            const randomIndex = Math.floor(Math.random() * wordList.length);
+            currentWord = wordList[randomIndex];
+            wordTarget.innerText = currentWord;
+            wordTarget.style.color = "#ffaa00";
+        }
+
+        gameInput.addEventListener('input', () => {
+            const typed = gameInput.value;
+            
+            // Check if what they typed matches the start of the word perfectly
+            if (!currentWord.startsWith(typed)) {
+                // SUDDEN DEATH: Trigger immediate game over if they make an error!
+                wordTarget.innerText = "💥 GAME OVER";
+                wordTarget.style.color = "#e74c3c";
+                alert("Game Over! Final Score: " + score);
+                exitArcade();
+                return;
+            }
+
+            // If word is completely typed correct
+            if (typed === currentWord) {
+                score++;
+                scoreDisplay.innerText = score;
+                nextWord();
+            }
+        });
+
+        function exitArcade() {
+            arena.style.display = 'none';
+            menu.style.display = 'block';
+        }
+    </script>
 </body>
 </html>

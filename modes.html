@@ -1,16 +1,11 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Typing Skills - Modes</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body {
             min-height: 100vh;
             display: flex;
@@ -30,85 +25,34 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             text-align: center;
         }
-        h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            color: #ffaa00;
-        }
-        /* Smaller row layout for mode selection buttons */
-        .mode-row {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
-        }
-        /* Matching smaller gradient buttons */
+        h2 { font-size: 2rem; margin-bottom: 20px; color: #ffaa00; }
+        .mode-row { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
         .btn-mode {
             background: linear-gradient(45deg, #00c6ff, #0072ff);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: transform 0.2s;
+            color: white; border: none; padding: 10px 20px; font-size: 0.9rem;
+            font-weight: bold; border-radius: 20px; cursor: pointer; transition: transform 0.2s;
         }
-        .btn-mode:hover {
-            transform: scale(1.05);
-        }
-        /* Active button look */
-        .btn-mode.active {
-            background: linear-gradient(45deg, #ff007f, #ffaa00);
-            box-shadow: 0 0 10px rgba(255, 0, 127, 0.5);
-        }
+        .btn-mode:hover { transform: scale(1.05); }
+        .btn-mode.active { background: linear-gradient(45deg, #ff007f, #ffaa00); box-shadow: 0 0 10px rgba(255, 0, 127, 0.5); }
+        .stats { display: flex; justify-content: space-around; margin-bottom: 20px; font-size: 1.2rem; font-weight: bold; color: #00ffcc; }
         .display-area {
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: left;
-            font-size: 1.3rem;
-            line-height: 1.8rem;
-            margin-bottom: 25px;
-            min-height: 100px;
-            letter-spacing: 0.5px;
+            background: rgba(0,0,0,0.3); padding: 20px; border-radius: 10px; text-align: left;
+            font-size: 1.3rem; line-height: 1.8rem; margin-bottom: 25px; min-height: 100px; letter-spacing: 0.5px;
         }
-        .custom-input-box {
-            display: none;
-            margin-bottom: 20px;
-        }
-        .custom-input-box input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            border: none;
-            font-size: 1rem;
-            outline: none;
-        }
+        .custom-input-box { display: none; margin-bottom: 20px; }
+        .custom-input-box input { width: 100%; padding: 10px; border-radius: 5px; border: none; font-size: 1rem; outline: none; }
         textarea {
-            width: 100%;
-            height: 100px;
-            padding: 12px;
-            font-size: 1.1rem;
-            border-radius: 8px;
-            border: 2px solid #b0bec5;
-            background: #ffffff;
-            color: #333;
-            resize: none;
-            outline: none;
+            width: 100%; height: 100px; padding: 12px; font-size: 1.1rem; border-radius: 8px;
+            border: 2px solid #b0bec5; background: #ffffff; color: #333; resize: none; outline: none;
         }
         .correct { color: #2ecc71; }
         .incorrect { color: #e74c3c; background-color: rgba(231, 76, 60, 0.2); }
+        .current { border-bottom: 2px solid #00ffcc; }
+        .result-screen { display: none; }
+        .result-screen h3 { color: #ffaa00; font-size: 2rem; margin-bottom: 10px; }
         .nav-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 0.9rem;
+            display: inline-block; margin-top: 20px; padding: 10px 20px; background: rgba(255,255,255,0.2);
+            color: white; text-decoration: none; border-radius: 5px; font-size: 0.9rem; margin-right: 10px; cursor: pointer; border: none;
         }
         .nav-btn:hover { background: rgba(255,255,255,0.3); }
     </style>
@@ -116,29 +60,42 @@
 <body>
 
     <div class="box">
-        <h2>Select Typing Method</h2>
-        
-        <!-- The row of matching mode buttons you wanted -->
-        <div class="mode-row">
-            <button class="btn-mode active" onclick="changeMode('paragraph', this)">Paragraph</button>
-            <button class="btn-mode" onclick="changeMode('quotes', this)">Quotes</button>
-            <button class="btn-mode" onclick="changeMode('words', this)">Words Only</button>
-            <button class="btn-mode" onclick="changeMode('timer', this)">1-Min Challenge</button>
-            <button class="btn-mode" onclick="changeMode('custom', this)">Custom Text</button>
+        <div id="game-interface">
+            <h2>Select Typing Method</h2>
+            <div class="mode-row">
+                <button class="btn-mode active" onclick="changeMode('paragraph', this)">Paragraph</button>
+                <button class="btn-mode" onclick="changeMode('quotes', this)">Quotes</button>
+                <button class="btn-mode" onclick="changeMode('words', this)">Words Only</button>
+                <button class="btn-mode" onclick="changeMode('timer', this)">1-Min Challenge</button>
+                <button class="btn-mode" onclick="changeMode('custom', this)">Custom Text</button>
+            </div>
+
+            <div class="stats">
+                <div>WPM: <span id="wpm">0</span></div>
+                <div>Accuracy: <span id="accuracy">100</span>%</div>
+            </div>
+
+            <div id="custom-box" class="custom-input-box">
+                <input type="text" id="user-custom-text" placeholder="Type your text here, then press Enter...">
+            </div>
+
+            <div class="display-area" id="text-display"></div>
+            <textarea id="typing-input" placeholder="Start typing here..."></textarea>
+            <br>
+            <a href="index.html" class="nav-btn">← Back to Home</a>
         </div>
 
-        <!-- Custom text box container -->
-        <div id="custom-box" class="custom-input-box">
-            <input type="text" id="user-custom-text" placeholder="Type or paste your text here, then press Enter...">
+        <!-- NEW RESULT SCREEN FOR MODES -->
+        <div id="result-screen" class="result-screen">
+            <h3>🎉 Congratulations!</h3>
+            <p style="margin-bottom: 20px; font-size: 1.2rem;">Mode Challenge Completed!</p>
+            <div class="stats">
+                <div>Final WPM: <span id="final-wpm">0</span></div>
+                <div>Final Accuracy: <span id="final-accuracy">0</span>%</div>
+            </div>
+            <button class="nav-btn" onclick="resetTest()">Try Again</button>
+            <a href="index.html" class="nav-btn">Home Page</a>
         </div>
-
-        <!-- The field where specific text appears -->
-        <div class="display-area" id="text-display"></div>
-
-        <textarea id="typing-input" placeholder="Click a mode above and start typing here..."></textarea>
-        
-        <br>
-        <a href="index.html" class="nav-btn">← Back to Home</a>
     </div>
 
     <script>
@@ -153,7 +110,13 @@
         const textDisplay = document.getElementById('text-display');
         const typingInput = document.getElementById('typing-input');
         const customBox = document.getElementById('custom-box');
+        const wpmDisplay = document.getElementById('wpm');
+        const accuracyDisplay = document.getElementById('accuracy');
+        const gameInterface = document.getElementById('game-interface');
+        const resultScreen = document.getElementById('result-screen');
+        
         let currentText = contentData.paragraph;
+        let startTime, timerInitialized = false;
 
         function renderText(text) {
             textDisplay.innerHTML = '';
@@ -167,7 +130,7 @@
         function changeMode(modeType, element) {
             document.querySelectorAll('.btn-mode').forEach(btn => btn.classList.remove('active'));
             element.classList.add('active');
-            typingInput.value = '';
+            resetTest();
             
             if (modeType === 'custom') {
                 customBox.style.display = 'block';
@@ -185,27 +148,61 @@
                 if(val.trim() !== "") {
                     currentText = val;
                     renderText(currentText);
-                    typingInput.value = '';
+                    resetTest();
                     typingInput.focus();
                 }
             }
         });
 
         typingInput.addEventListener('input', () => {
+            if (!timerInitialized) {
+                startTime = new Date();
+                timerInitialized = true;
+            }
+
             const spans = textDisplay.querySelectorAll('span');
             const inputChars = typingInput.value.split('');
+            let correctCount = 0;
             
             spans.forEach((span, index) => {
                 const char = inputChars[index];
                 if (char == null) {
                     span.className = '';
+                    if(index === inputChars.length) span.classList.add('current');
                 } else if (char === span.innerText) {
                     span.className = 'correct';
+                    correctCount++;
                 } else {
                     span.className = 'incorrect';
                 }
             });
+
+            if(inputChars.length > 0) {
+                accuracyDisplay.innerText = Math.round((correctCount / inputChars.length) * 100);
+            }
+
+            let timeElapsed = (new Date() - startTime) / 60000;
+            if (timeElapsed > 0) {
+                wpmDisplay.innerText = Math.round((typingInput.value.length / 5) / timeElapsed);
+            }
+
+            if (inputChars.length >= spans.length) {
+                gameInterface.style.display = 'none';
+                resultScreen.style.display = 'block';
+                document.getElementById('final-wpm').innerText = wpmDisplay.innerText;
+                document.getElementById('final-accuracy').innerText = accuracyDisplay.innerText;
+            }
         });
+
+        function resetTest() {
+            typingInput.value = '';
+            wpmDisplay.innerText = '0';
+            accuracyDisplay.innerText = '100';
+            timerInitialized = false;
+            resultScreen.style.display = 'none';
+            gameInterface.style.display = 'block';
+            renderText(currentText);
+        }
 
         renderText(currentText);
     </script>

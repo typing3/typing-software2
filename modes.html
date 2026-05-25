@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Skills - Modes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: white;
+            padding: 20px;
+        }
+        .box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 800px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #ffaa00;
+        }
+        /* Smaller row layout for mode selection buttons */
+        .mode-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        /* Matching smaller gradient buttons */
+        .btn-mode {
+            background: linear-gradient(45deg, #00c6ff, #0072ff);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .btn-mode:hover {
+            transform: scale(1.05);
+        }
+        /* Active button look */
+        .btn-mode.active {
+            background: linear-gradient(45deg, #ff007f, #ffaa00);
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.5);
+        }
+        .display-area {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: left;
+            font-size: 1.3rem;
+            line-height: 1.8rem;
+            margin-bottom: 25px;
+            min-height: 100px;
+            letter-spacing: 0.5px;
+        }
+        .custom-input-box {
+            display: none;
+            margin-bottom: 20px;
+        }
+        .custom-input-box input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            font-size: 1rem;
+            outline: none;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 12px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            border: 2px solid #b0bec5;
+            background: #ffffff;
+            color: #333;
+            resize: none;
+            outline: none;
+        }
+        .correct { color: #2ecc71; }
+        .incorrect { color: #e74c3c; background-color: rgba(231, 76, 60, 0.2); }
+        .nav-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        .nav-btn:hover { background: rgba(255,255,255,0.3); }
+    </style>
+</head>
+<body>
+
+    <div class="box">
+        <h2>Select Typing Method</h2>
+        
+        <!-- The row of matching mode buttons you wanted -->
+        <div class="mode-row">
+            <button class="btn-mode active" onclick="changeMode('paragraph', this)">Paragraph</button>
+            <button class="btn-mode" onclick="changeMode('quotes', this)">Quotes</button>
+            <button class="btn-mode" onclick="changeMode('words', this)">Words Only</button>
+            <button class="btn-mode" onclick="changeMode('timer', this)">1-Min Challenge</button>
+            <button class="btn-mode" onclick="changeMode('custom', this)">Custom Text</button>
+        </div>
+
+        <!-- Custom text box container -->
+        <div id="custom-box" class="custom-input-box">
+            <input type="text" id="user-custom-text" placeholder="Type or paste your text here, then press Enter...">
+        </div>
+
+        <!-- The field where specific text appears -->
+        <div class="display-area" id="text-display"></div>
+
+        <textarea id="typing-input" placeholder="Click a mode above and start typing here..."></textarea>
+        
+        <br>
+        <a href="index.html" class="nav-btn">← Back to Home</a>
+    </div>
+
+    <script>
+        const contentData = {
+            paragraph: "The digital world is expanding rapidly. Coding allows us to interact with machines and build creative solutions to global problems every single day.",
+            quotes: "\"The only way to do great work is to love what you do.\" - Steve Jobs",
+            words: "apple banana computer keyboard screen monitor system internet network power module button code logic script update",
+            timer: "Time is ticking! Type as fast as you can before the invisible clock runs out. Focus on accuracy over raw speed to win this specific test challenge.",
+            custom: "Please type your own text in the box above to generate your custom practice block!"
+        };
+
+        const textDisplay = document.getElementById('text-display');
+        const typingInput = document.getElementById('typing-input');
+        const customBox = document.getElementById('custom-box');
+        let currentText = contentData.paragraph;
+
+        function renderText(text) {
+            textDisplay.innerHTML = '';
+            text.split('').forEach(char => {
+                const span = document.createElement('span');
+                span.innerText = char;
+                textDisplay.appendChild(span);
+            });
+        }
+
+        function changeMode(modeType, element) {
+            document.querySelectorAll('.btn-mode').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            typingInput.value = '';
+            
+            if (modeType === 'custom') {
+                customBox.style.display = 'block';
+                currentText = contentData.custom;
+            } else {
+                customBox.style.display = 'none';
+                currentText = contentData[modeType];
+            }
+            renderText(currentText);
+        }
+
+        document.getElementById('user-custom-text').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const val = e.target.value;
+                if(val.trim() !== "") {
+                    currentText = val;
+                    renderText(currentText);
+                    typingInput.value = '';
+                    typingInput.focus();
+                }
+            }
+        });
+
+        typingInput.addEventListener('input', () => {
+            const spans = textDisplay.querySelectorAll('span');
+            const inputChars = typingInput.value.split('');
+            
+            spans.forEach((span, index) => {
+                const char = inputChars[index];
+                if (char == null) {
+                    span.className = '';
+                } else if (char === span.innerText) {
+                    span.className = 'correct';
+                } else {
+                    span.className = 'incorrect';
+                }
+            });
+        });
+
+        renderText(currentText);
+    </script>
+</body>
+</html>

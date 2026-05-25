@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Skills - Typing Games</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: white;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+        }
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #ffaa00;
+        }
+        .subtitle {
+            color: #b0bec5;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        /* Beautiful square grid layout for game blocks */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        /* Interactive square game card design */
+        .game-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px 20px;
+            aspect-ratio: 1 / 1; /* Forces the block to be a perfect square */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        /* Color themes for different square blocks */
+        .card-pink:hover {
+            border-color: #ff007f;
+            box-shadow: 0 10px 25px rgba(255, 0, 127, 0.4);
+            transform: translateY(-5px);
+        }
+        .card-cyan:hover {
+            border-color: #00ffcc;
+            box-shadow: 0 10px 25px rgba(0, 255, 204, 0.4);
+            transform: translateY(-5px);
+        }
+        .card-orange:hover {
+            border-color: #ffaa00;
+            box-shadow: 0 10px 25px rgba(255, 170, 0, 0.4);
+            transform: translateY(-5px);
+        }
+        .game-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+        }
+        .game-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .game-card p {
+            font-size: 0.9rem;
+            color: #b0bec5;
+            line-height: 1.3rem;
+        }
+        .nav-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Typing Arcade</h2>
+        <p class="subtitle">Level up your keyboard precision with interactive modules.</p>
+        
+        <!-- The beautiful square blocks layout -->
+        <div class="games-grid">
+            
+            <div class="game-card card-pink" onclick="alert('Launching Falling Words Mode... (Coming Soon!)')">
+                <div class="game-icon">☄️</div>
+                <div class="game-title" style="color: #ff007f;">Falling Meteor</div>
+                <p>Type the words before they hit the ground and destroy your shield.</p>
+            </div>
+            
+            <div class="game-card card-cyan" onclick="alert('Launching Time Attack Arcade Mode... (Coming Soon!)')">
+                <div class="game-icon">⏱️</div>
+                <div class="game-title" style="color: #00ffcc;">Speed Sprint</div>
+                <p>Pop as many letters as you can within a 30-second rapid window.</p>
+            </div>
+            
+            <div class="game-card card-orange" onclick="alert('Launching Infinite Survival Mode... (Coming Soon!)')">
+                <div class="game-icon">❤️</div>
+                <div class="game-title" style="color: #ffaa00;">Sudden Death</div>
+                <p>One single mistake ends the run. How long can your streak survive?</p>
+            </div>
+            
+        </div>
+        
+        <a href="index.html" class="nav-btn">← Back to Home Page</a>
+    </div>
+
+</body>
+</html>
